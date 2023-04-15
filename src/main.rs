@@ -105,6 +105,7 @@ async fn main() {
                 }
             }
 
+            // @TODO: Move this somewhere else
             let (bytes_read, peer) = socket.recv_from(&mut buffer).await.unwrap();
             let bytes = &buffer[..bytes_read];
             println!("{:?} {}", bytes, peer);
