@@ -81,7 +81,9 @@ async fn main() {
     };
 
     let _chat = task::spawn(async move {
-        let socket = UdpSocket::bind((Ipv4Addr::UNSPECIFIED, 9998)).await.unwrap();
+        let socket = UdpSocket::bind((Ipv4Addr::UNSPECIFIED, 9998))
+            .await
+            .unwrap();
         let mut buffer = vec![0; 1024];
 
         let mut peers: HashSet<SocketAddr> = HashSet::new();
@@ -97,7 +99,7 @@ async fn main() {
                 }
                 Events::SendMessage(message) => {
                     for peer in &peers {
-                        socket.connect(peer).await.unwrap();
+                        socket.connect((peer.ip(), 9998)).await.unwrap();
                         socket.send(message.as_bytes()).await.unwrap();
                     }
                 }
